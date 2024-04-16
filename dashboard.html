@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard :: WanderHub</title>
+    <title>Dashboard :: Admin</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -13,219 +13,159 @@
 </head>
 <body class="bg-gray-200 " x-data x-cloak>
 
-   <main class="w-screen h-screen overflow-hidden bg-[url('/res/img/bg.jpg')] bg-cover bg-gray-600 bg-blend-multiply">
+   <main class="w-screen h-screen overflow-hidden bg-[url('/res/img/bg-alt.jpg')] bg-cover bg-gray-600 bg-blend-multiply">
         <header class="text-yellow-400 bg-black border-b border-yellow-300 bg-opacity-20">
             <div class="flex items-center justify-between max-w-6xl py-2 mx-auto">
-                <a href="/dashboard.html" class="py-2 text-2xl font-bold">
-                    WanderHub
+                <a href="/admin/dashboard.html" class="py-2 text-2xl font-bold">
+                    Admin
                 </a>
-                <div class="flex items-center space-x-4">
-                    <ul class="">
-                       
+                <!-- Nav -->
+                <div class="uppercase">
+                <ul class="flex items-center space-x-3">
                         <li>
-                            <button class="px-2 py-2"  x-on:click="$store.app.formState = 'create'">Create Travel Plan</button>
-                        </li>  
-                    </ul>
-                    <div class="relative p-2 w-36">
-                        <div class="absolute group top-[-5px] w-full overflow-hidden text-sm border border-yellow-400 rounded-lg">
-                            <div class="py-1 text-center cursor-default ">
-                                <span><i class="fa-solid fa-circle-user"></i></span>
-                                <span class="inline-block"><span x-text="$store.app.auth.user.last_name"></span></span>
-                            </div>
-                            <div class="hidden py-1 text-center text-gray-800 bg-yellow-400 group-hover:block">
-                                <ul class="">
-                                    <li class="border-b border-yellow-500 " x-show="$store.app.auth.isAdmin">
-                                        <a href="/admin/dashboard.html" class="block w-full py-1 hover:bg-yellow-500">Admin</a>
-                                    </li>
-                                   
-                                    <li class="border-b border-yellow-500 ">
-                                        <button  class="block w-full py-1 hover:bg-yellow-500" x-on:click="$store.app.logOut()">Log Out</button>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                            <a href="/admin/cities.html" class="px-2 py-2">Cities</a>
+                        </li>
+                        <li>
+                            <a href="/admin/activities.html" class="px-2 py-2">Activities</a>
+                        </li>
+                        <li>
+                            <a href="/admin/accommodations.html" class="px-2 py-2">Accommodations</a>
+                        </li>
+                        <li>
+                            <a href="/admin/travel-plans.html" class="px-2 py-2">Travel Plans</a>
+                        </li>
+                        <li>
+                            <a href="/admin/flights.html" class="px-2 py-2">Flights</a>
+                        </li>
+                         
+                </ul>
+                    
+                </div>
+                <div>
+                    <div class="relative">
+                        <button class="px-4 py-1 border border-yellow-400 rounded-lg">
+                            <span><i class="fa-solid fa-circle-user"></i></span>
+                            <span class="inline-block"><span x-text="$store.app.auth.user.last_name"></span></span>
+                        </button>
+                        <button class="px-3 py-3 hover:text-yellow-600" x-on:click="$store.app.logOut()">
+                            <span><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </header>
 
         <section class="py-10">
-            <div class="flex justify-center max-w-6xl mx-auto my-5 space-x-5 text-yellow-500">
-                <div class="flex-1">
-                    <!-- List -->
-                    <div class="bg-black bg-opacity-50 border border-yellow-300 rounded border-opacity-20" x-show="!$store.app.creating" x-transition>
-                        <div class="flex items-center justify-between px-4 py-2 text-xs text-yellow-600 uppercase bg-black px-x2 opacity-80 bg-opacity-15">
-                            <div class="font-bold">
-                                My Travel Plans
-                            </div>
-                            <div>
-                                <button class="block px-2 py-1 uppercase border border-yellow-600 rounded cursor-pointer hover:bg-yellow-400 hover:text-gray-800"
-                                x-on:click="$store.app.formState = 'create'">Create New</button>
-                            </div>
+            <div class="max-w-6xl mx-auto my-5 space-x-5 text-yellow-500">
+                <div class="grid grid-cols-5 gap-5">
+                    <!-- Status Item -->
+                    <div class="text-center bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                        <div class="py-3 text-lg ">
+                            <span x-text="$store.app.users.length"></span>
                         </div>
-                        <div class="text-sm ">
-                            <table class="w-full">
-                                <tr class="bg-black border-b border-yellow-300 bg-opacity-40 border-opacity-10">
-                                    <th class="py-2 pl-4 text-left ">People Count</th>
-                                    <th>Description</th>
-                                    <th>Travel Date</th>
-                                    <th class="pr-4 text-right">Action</th>
-                                </tr>
-                                <tbody>
-                                     <template x-for="(tp, index) in $store.app.my_travel_plans">
-                                        <tr>
-                                            <td class="py-3 pl-4 text-left"><span x-text="tp.people_count"></span></td>
-                                            <td class="py-3 pl-4 text-center"><span x-text="tp.description"></span></td>
-                                            <td class="py-3 pl-4 text-center"><span x-text="tp.travel_date"></span></td>
-                                            <td class="py-3 pl-4 pr-4 text-right">
-                                                <button x-on:click="$store.app.loadTravelPlan(tp.id)" class="hover:text-yellow-700">Edit</button>
-                                            </td>
-                                        </tr>
-                                     </template>
-                                    
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>  
-                </div>
-
-                <!-- Create Travel Plan -->
-                <div class="flex justify-center basis-1/2"  x-show="$store.app.formState == 'create'" x-transition>
-                    <div class="w-full max-w-md overflow-hidden bg-black rounded-lg bg-opacity-40" >
-                        <div class="py-3 font-semibold text-center bg-black bg-opacity-20">
-                            Create A Travel Plan
-                        </div>
-                        <div class="px-5 py-5">
-                            <form action="" class="space-y-3" @submit.prevent>
-                                <div>
-                                    <input type="text" x-model="$store.app.travel_plan.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
-                                </div>
-                                <div>
-                                    <input type="text" x-model="$store.app.travel_plan.people_count" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="People Count">
-                                </div>
-                                <div class="grid grid-cols-2 gap-5">
-                                    <select   id="" x-model="$store.app.travel_plan.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select City</option>
-                                        <template x-for="(city, index) in $store.app.cities">
-                                            <option :value="city.id"  x-text="city.name"></option>
-                                        </template>
-                                    </select>
-
-                                    <select   id="" x-model="$store.app.travel_plan.activity_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Activity</option>
-                                        <template x-for="(activity, index) in $store.app.activities">
-                                            <option :value="activity.id"  x-text="activity.activity_name"></option>
-                                        </template>
-                                    </select>
-                                </div>
-                                  
-                                <div>
-                                    <select   id="" x-model="$store.app.travel_plan.accommodation_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Accommodation</option>
-                                        <template x-for="(acc, index) in $store.app.accommodations">
-                                            <option :value="acc.id"  x-text="acc.accommodation_name"></option>
-                                        </template>
-                                    </select>
-                                </div>
-                               
-                                <div class="grid grid-cols-2 gap-5">
-                                    <select   x-model="$store.app.travel_plan.flight_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Flight</option>
-                                        <template x-for="(flight, index) in $store.app.flights">
-                                            <option :value="flight.id"  x-text="flight.flight_company"></option>
-                                        </template>
-                                    </select>
-
-                                    <div>
-                                        <input type="text" x-model="$store.app.travel_plan.travel_date" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Date">
-
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-6">
-                                    <button class="w-full py-3 text-yellow-400 border border-yellow-400 rounded opacity-75 hover:text-gray-800 hover:bg-yellow-500 hover:opacity-100"
-                                        x-on:click="$store.app.resetForms()">
-                                        Cancel     
-                                    </button>
-                                    <button class="w-full py-3 text-gray-800 bg-yellow-500 rounded opacity-75 hover:opacity-100"
-                                        x-on:click="$store.app.createTravelPlan()">
-                                        Create     
-                                    </button>
-                                </div>
-                            </form>
+                        <div class="py-2 text-xs text-yellow-600 uppercase bg-black opacity-80 bg-opacity-15">
+                           <a href="/admin/users.html"> Users</a>
                         </div>
                     </div>
-                </div>
-
-                <!-- Edit Travel Plan -->
-                <div class="flex justify-center basis-1/2"  x-show="$store.app.formState == 'edit'" x-transition>
-                    <div class="w-full max-w-md overflow-hidden bg-black rounded-lg bg-opacity-40" >
-                        <div class="flex items-center justify-between px-4 py-3 font-semibold text-center bg-black bg-opacity-20">
-                            Edit Travel Plan
-                            <button class="px-4 py-1 text-sm text-yellow-700 border border-yellow-700 rounded hover:bg-yellow-400 hover:text-gray-800"
-                            x-on:click="$store.app.deleteTravelPlan()">Delete</button>
+                    <!-- Status Item -->
+                    <div class="text-center bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                        <div class="py-3 text-lg ">
+                            <span x-text="$store.app.cities.length"></span>
                         </div>
-                        <div class="px-5 py-5">
-                            <form action="" class="space-y-3" @submit.prevent>
-                                 
-                                <div>
-                                    <input type="text" x-model="$store.app.travel_plan.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
-                                </div>
-                                <div>
-                                    <input type="text" x-model="$store.app.travel_plan.people_count" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="People Count">
-                                </div>
-                                <div class="grid grid-cols-2 gap-5">
-                                    <select x-model="$store.app.travel_plan.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select City</option>
-                                        <template x-for="(city, index) in $store.app.cities">
-                                            <option :value="city.id"  x-text="city.name"></option>
-                                        </template>
-                                    </select>
-
-                                    <select x-model="$store.app.travel_plan.activity_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Activity</option>
-                                        <template x-for="(activity, index) in $store.app.activities">
-                                            <option :value="activity.id"  x-text="activity.activity_name"></option>
-                                        </template>
-                                    </select>
-                                </div>
-                                  
-                                <div>
-                                    <select x-model="$store.app.travel_plan.accommodation_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Accommodation</option>
-                                        <template x-for="(acc, index) in $store.app.accommodations">
-                                            <option :value="acc.id"  x-text="acc.accommodation_name"></option>
-                                        </template>
-                                    </select>
+                        <div class="py-2 text-xs text-yellow-600 uppercase bg-black opacity-80 bg-opacity-15">
+                            <a href="/admin/cities.html"> Cities</a>
+                        </div>
+                    </div>
+                           <!-- Status Item -->
+                           <div class="text-center bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                            <div class="py-3 text-lg ">
+                                <span x-text="$store.app.activities.length"></span>
+                            </div>
+                            <div class="py-2 text-xs text-yellow-600 uppercase bg-black opacity-80 bg-opacity-15">
+                                <a href="/admin/activities.html">Activities</a>
+                            </div>
+                        </div>
+                        <!-- Status Item -->
+                        <div class="text-center bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                            <div class="py-3 text-lg ">
+                                <span x-text="$store.app.property_types.length"></span>
+                            </div>
+                            <div class="py-2 text-xs text-yellow-600 uppercase bg-black opacity-80 bg-opacity-15">
+                                <a href="/admin/property-types.html">Property Types</a>
+                            </div>
+                        </div>
+                        <!-- Status Item -->
+                        <div class="text-center bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                            <div class="py-3 text-lg ">
+                                <span x-text="$store.app.flights.length"></span>
+                            </div>
+                            <div class="py-2 text-xs text-yellow-600 uppercase bg-black opacity-80 bg-opacity-15">
+                                <a href="/admin/flights.html">Flights</a>
+                            </div>
+                        </div>
+                </div>
+               
+                <div class="flex mt-4 space-x-7">
+                    <div class="basis-1/2">
+                        <div class="bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                            <div class="flex justify-between px-4 py-2 text-xs text-yellow-600 uppercase bg-black px-x2 opacity-80 bg-opacity-15">
+                                <div class="font-bold">
+                                    Users
                                 </div>
                                
-                                <div class="grid grid-cols-2 gap-5">
-                                    <select   x-model="$store.app.travel_plan.flight_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
-                                        <option value="">Select Flight</option>
-                                        <template x-for="(flight, index) in $store.app.flights">
-                                            <option :value="flight.id"  x-text="flight.flight_company"></option>
+                            </div>
+                            <div class="text-sm ">
+                                <table class="w-full">
+                                    <tr class="bg-black border-b border-yellow-300 bg-opacity-5 border-opacity-10">
+                                        <th class="py-2 pl-4 text-left ">Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th class="pr-4 text-right">Phone</th>
+                                    </tr>
+                                    <tbody>
+                                        <template x-for="(user, index) in $store.app.users">
+                                            <tr>
+                                                <td class="py-3 pl-4 text-left"><span x-text="`${user.first_name} ${user.last_name}`"></span></td>
+                                                <td class="py-3 pl-4 text-center"><span x-text="user.username"></span></td>
+                                                <td class="py-3 pl-4 text-center"><span x-text="user.email"></span></td>
+                                                <td class="py-3 pl-4 pr-4 text-right"><span x-text="user.phone"></span></td>
+                                            </tr>  
+                                        </template> 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> 
+                    </div>
+    
+                    <div class="basis-1/2">
+                        <div class="bg-black border border-yellow-300 rounded bg-opacity-15 border-opacity-20">
+                            <div class="flex justify-between px-4 py-2 text-xs text-yellow-600 uppercase bg-black px-x2 opacity-80 bg-opacity-15">
+                                <div class="font-bold">
+                                    Travel Plans
+                                </div>
+                               
+                            </div>
+                            <div class="text-sm ">
+                                <table class="w-full">
+                                    <tr class="bg-black border-b border-yellow-300 bg-opacity-5 border-opacity-10">
+                                        <th class="py-2 pl-4 text-left ">User</th>
+                                        <th>P. Count</th>
+                                        <th>Travel Date</th>
+                                        <th class="pr-4 text-right">Action</th>
+                                    </tr>
+                                    <tbody>
+                                        <template x-for="(tp, index) in $store.app.travel_plans">
+                                            <tr>
+                                                <td class="py-3 pl-4 text-left"><span x-text="$store.app.getUserName(tp.user_id)"></span></td>
+                                                <td class="py-3 pl-4 text-center"><span x-text="tp.people_count"></span></td>
+                                                <td class="py-3 pl-4 text-center"><span x-text="tp.travel_date"></span></td>
+                                                <td class="py-3 pl-4 pr-4 text-right">View</td>
+                                            </tr>
                                         </template>
-                                    </select>
-
-                                    <div>
-                                        <input type="text" x-model="$store.app.travel_plan.travel_date" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Date">
-
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-6">
-                                    <button class="w-full py-3 text-yellow-400 border border-yellow-400 rounded opacity-75 hover:text-gray-800 hover:bg-yellow-500 hover:opacity-100"
-                                        x-on:click="$store.app.resetForms()">
-                                        Cancel     
-                                    </button>
-                                    <button class="w-full py-3 text-gray-800 bg-yellow-500 rounded opacity-75 hover:opacity-100"
-                                        x-on:click="$store.app.editTravelPlan()">
-                                        Update     
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>    
                     </div>
                 </div>
             </div>

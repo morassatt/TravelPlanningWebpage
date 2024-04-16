@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activities :: Admin</title>
+    <title>Accommodations :: Admin</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -60,7 +60,7 @@
                 <div class="flex w-full space-x-8">
                     <div class="flex-1">
                         <div class="flex justify-between px-6 py-6">
-                            <div class="text-2xl">Activities</div>
+                            <div class="text-2xl">Accommodations</div>
                             <div>
                                 <!-- Add Button -->
                                 <button class="block w-16 py-1 text-center border border-yellow-400 rounded-lg hover:bg-yellow-500 hover:text-gray-900"
@@ -75,18 +75,19 @@
                             <div class="text-sm ">
                                 <table class="w-full">
                                     <tr class="bg-black border-b border-yellow-300 bg-opacity-20 border-opacity-10">
-                                        <th class="py-2 pl-4 text-left ">Activity Name</th>
+                                        <th class="py-2 pl-4 text-left ">Accommodation Name</th>
                                         <th class="text-left">Description</th>
-                                        <th class="text-center">City</th>
+                                       
+                                        <th class="">City</th>
                                         <th class="pr-4 text-right">Action</th>
                                     </tr>
                                     <tbody>
-                                       <template x-for="(activity, index) in $store.app.activities">
+                                       <template x-for="(accommodation, index) in $store.app.accommodations">
                                         <tr>
-                                            <td class="py-3 pl-4 text-left"><span x-text="activity.activity_name"></span></td>
-                                            <td class=""><span x-text="activity.description"></span></td>
-                                            <td class="text-center"><span x-text="activity.description"></span></td>
-                                             <td class="py-3 pl-4 pr-4 text-right"><button x-on:click="$store.app.selectActivity(activity.id)" >Edit</button></td>
+                                            <td class="py-3 pl-4 text-left"><span x-text="accommodation.accommodation_name"></span></td>
+                                            <td class=""><span x-text="accommodation.description"></span></td>
+                                            <td class=""><span x-text="$store.app.getCityName(accommodation.city_id)"></span></td>
+                                             <td class="py-3 pl-4 pr-4 text-right"><button x-on:click="$store.app.selectAccommodation(accommodation.id)" >Edit</button></td>
                                         </tr>
                                        </template>
                                        </template>                                         
@@ -96,22 +97,22 @@
                         </div>
                     </div>
 
-                    <!-- Add City -->
+                    <!-- Add Acc -->
                     <div class="w-full max-w-md overflow-hidden bg-black rounded-lg bg-opacity-40" x-show="$store.app.formState == 'create'" x-transition>
                         <div class="py-3 font-semibold text-center bg-black bg-opacity-20">
-                            Add Activity
+                            Add Accommodation
                         </div>
                         <div class="px-5 py-8">
                             <form action="" class="space-y-5" @submit.prevent>
                                 <div>
-                                    <input type="text" x-model="$store.app.activity.activity_name" class="w-full px-4 py-2 bg-black rounded placeholder:text-yellow-900 bg-opacity-30" placeholder="Activity Name">
+                                    <input type="text" x-model="$store.app.accommodation.accommodation_name" class="w-full px-4 py-2 bg-black rounded placeholder:text-yellow-900 bg-opacity-30" placeholder="Accommodation Name">
                                 </div>
                                 <div>
-                                    <input type="text" x-model="$store.app.activity.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
+                                    <input type="text" x-model="$store.app.accommodation.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
                                 </div>
 
                                 <div>
-                                    <select   id="" x-model="$store.app.activity.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
+                                    <select   id="" x-model="$store.app.accommodation.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
                                         <option value="">Select City</option>
                                         <template x-for="(city, index) in $store.app.cities">
                                             <option :value="city.id"  x-text="city.name"></option>
@@ -126,7 +127,7 @@
                                         Cancel     
                                     </button>
                                     <button class="w-full py-3 text-gray-800 bg-yellow-500 rounded opacity-75 hover:opacity-100"
-                                        x-on:click="$store.app.createActivity()">
+                                        x-on:click="$store.app.createAccommodation()">
                                         Add     
                                     </button>
                                 </div>
@@ -134,24 +135,24 @@
                         </div>
                     </div>
 
-                    <!-- Edit Activity -->
+                    <!-- Edit Acc -->
                     <div class="w-full max-w-md overflow-hidden bg-black rounded-lg bg-opacity-40" x-show="$store.app.formState == 'edit'" x-transition>
                         <div class="flex items-center justify-between px-4 py-3 font-semibold text-center bg-black bg-opacity-20">
-                            Edit Activity
+                            Edit Accommodation
                             <button class="px-4 py-1 text-sm text-yellow-700 border border-yellow-700 rounded hover:bg-yellow-400 hover:text-gray-800"
-                            x-on:click="$store.app.deleteActivity()">Delete</button>
+                            x-on:click="$store.app.deleteAccommodation()">Delete</button>
                         </div>
                         <div class="px-5 py-8">
                             <form action="" class="space-y-5" @submit.prevent>
                                 <div>
-                                    <input type="text" x-model="$store.app.activity.activity_name" class="w-full px-4 py-2 bg-black rounded placeholder:text-yellow-900 bg-opacity-30" placeholder="Activity Name">
+                                    <input type="text" x-model="$store.app.accommodation.accommodation_name" class="w-full px-4 py-2 bg-black rounded placeholder:text-yellow-900 bg-opacity-30" placeholder="Accommodation Name">
                                 </div>
                                 <div>
-                                    <input type="text" x-model="$store.app.activity.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
+                                    <input type="text" x-model="$store.app.accommodation.description" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900" placeholder="Description">
                                 </div>
 
                                 <div>
-                                    <select   id="" x-model="$store.app.activity.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
+                                    <select   id="" x-model="$store.app.accommodation.city_id" class="w-full px-4 py-2 bg-black rounded bg-opacity-30 placeholder:text-yellow-900">
                                         <option value="">Select City</option>
                                         <template x-for="(city, index) in $store.app.cities">
                                             <option :value="city.id"  x-text="city.name"></option>
@@ -166,7 +167,7 @@
                                         Cancel     
                                     </button>
                                     <button class="w-full py-3 text-gray-800 bg-yellow-500 rounded opacity-75 hover:opacity-100"
-                                        x-on:click="$store.app.editActivity()">
+                                        x-on:click="$store.app.editAccommodation()">
                                         Update     
                                     </button>
                                 </div>
